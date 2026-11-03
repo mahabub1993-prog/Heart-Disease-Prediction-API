@@ -1,3 +1,4 @@
+
 from fastapi import FastAPI
 from pathlib import Path
 import joblib
@@ -5,11 +6,10 @@ import pandas as pd
 
 from app.schemas import HeartDiseaseInput
 
-
-# STEP 1: Load Trained ML Model
-
+# Project base directory
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Load trained ML model
 MODEL_PATH = BASE_DIR / "model" / "heart_model.joblib"
 
 model_data = joblib.load(MODEL_PATH)
@@ -18,31 +18,27 @@ model = model_data["model"]
 features = model_data["features"]
 model_type = model_data["model_type"]
 
-
-# STEP 2: Create FastAPI Application
-
+# Initialize FastAPI application
 app = FastAPI(
     title="Heart Disease Prediction API",
-    description="Machine Learning API for educational heart disease prediction. Not for medical diagnosis.",
+    description=(
+        "Machine Learning API for educational "
+        "heart disease prediction. "
+        "Not for medical diagnosis."
+    ),
     version="1.0.0"
 )
 
 
-# STEP 3: Health Check API
-
+# Health Check Endpoint
 @app.get("/health")
 def health():
-
-    return {
-        "status": "healthy"
-    }
+    return {"status": "healthy"}
 
 
-# STEP 4: Model Information API
-
+# Model Information Endpoint
 @app.get("/info")
 def info():
-
     return {
         "model_type": model_type,
         "features": features,
@@ -50,8 +46,7 @@ def info():
     }
 
 
-# STEP 5: Prediction API
-
+# Heart Disease Prediction Endpoint
 @app.post("/predict")
 def predict(data: HeartDiseaseInput):
 
@@ -65,14 +60,7 @@ def predict(data: HeartDiseaseInput):
     prediction = int(model.predict(input_df)[0])
 
     return {
-        "prediction": prediction,
-
-        "prediction_label": (
-            "Positive model prediction"
-            if prediction == 1
-            else "Negative model prediction"
-        ),
-
+        "heart_disease": bool(prediction),
         "disclaimer": (
             "Educational prediction only. "
             "Not a medical diagnosis."
