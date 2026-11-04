@@ -88,7 +88,7 @@ uvicorn app.main:app --reload
 Open Swagger UI:
 
 ```text
-http://127.0.0.1:8000/docs
+http://127.0.0.1:8000/docs](https://heart-disease-prediction-api-1-8mf3.onrender.com/docs
 ```
 
 ## Run with Docker
@@ -108,7 +108,7 @@ docker compose up
 Open:
 
 ```text
-http://127.0.0.1:8000/docs
+http://127.0.0.1:8000/docs](https://heart-disease-prediction-api-1-8mf3.onrender.com/docs
 ```
 
 Stop the container:
